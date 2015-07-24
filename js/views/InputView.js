@@ -1,50 +1,26 @@
 var InputView = Backbone.View.extend({
-
-  tagName: 'input',
   // el: '<input>',
+  tagName: 'input' ,//will create a new dom node and be bound to it
 
+  //how do we capture these events from the user??
   events: {
-    'keydown': 'keyAction',
+    //any sort of dom event you can capture
+    'keypress': 'keyAction'
   },
 
-  initialize: function() {
+  initialize: function(){
     this.render();
   },
-
-  render: function() {
-    this.resetInput();
-    return this;
+  render: function(){
+    this.$el.attr('placeholder', 'Enter a zip code');
   },
 
-  keyAction: function(e) {
-
-    var isEnterKey = (e.which === 13);
-
-    if(isEnterKey && !this.$el.val().trim().match(/^(?=.*[0-9].*)[0-9]{5}$/)) {
-
-      this.$el.attr({
-        placeholder: 'Sorry, zip code invalid.'
-      });
-      this.clearInput();
-
-    } else if(isEnterKey) {
-
-      this.collection.addWeatherEntry(this.$el.val());
-      this.resetInput();
-
+  keyAction: function(event){
+    var isEnterKey = (event.which === 13);
+    if(isEnterKey){
+      //do stuff
+      this.collection.addNewWeatherEntry(this.$el.val());
+      this.$el.val('');
     }
-
-  },
-
-  resetInput: function() {
-    this.$el.attr({
-      placeholder: 'Enter a zip code'
-    });
-    this.clearInput();
-  },
-
-  clearInput: function() {
-    this.$el.val('');
   }
-
-});
+})

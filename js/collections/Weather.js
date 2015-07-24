@@ -1,19 +1,17 @@
 var Weather = Backbone.Collection.extend({
-
+  //what kind of model does this collection hold?
   model: WeatherEntry,
 
-  addWeatherEntry: function(zipcode) {
-
+  addNewWeatherEntry: function(zipcode){
     $.get(
       'http://api.openweathermap.org/data/2.5/weather?zip=' + zipcode + ',us&units=imperial',
-      function(data) {
-        this.add({         
-            zipcode: zipcode,
-            city: data.name,
-            weather: data.main.temp + '°F'
-          });
-      }.bind(this)
-    );
+      function(data){
+        //will create a new model and give it properties
+        this.add({
+          'zipcode': zipcode,
+          'weather': data.main.temp,
+          'city': data.name
+        });
+      }.bind(this));
   }
-
 });
